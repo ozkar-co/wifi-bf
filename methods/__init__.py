@@ -1,6 +1,7 @@
 """
 Módulo de métodos de ataque para WiFi-BF
 Proporciona clase base y decoradores para facilitar la extensión
+Compatible con validadores (para redes reales) y comparación simple (para testing)
 """
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -14,14 +15,16 @@ logger = get_logger(__name__)
 class AttackMethod(ABC):
     """Clase base para todos los métodos de ataque"""
 
-    def __init__(self, name):
+    def __init__(self, name, validator=None):
         """
         Inicializa un método de ataque
         
         Args:
             name: Nombre del método
+            validator: Objeto validador (WPAValidator, comparador, etc)
         """
         self.name = name
+        self.validator = validator  # Puede ser WPAValidator o función comparadora
         self.attempts = 0
         self.start_time = None
         self.end_time = None

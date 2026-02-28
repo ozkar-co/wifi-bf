@@ -1,2 +1,8 @@
 psutil>=5.9.0
 colorama>=0.4.4
+scapy>=2.4.5
+pwntools>=4.8.0
+
+# Requisitos del sistema (instalar con apt-get en Linux/WSL2)
+# sudo apt-get install aircrack-ng wireless-tools iwconfig
+# sudo apt-get install iw crunch hcxtools hashcat (opcional para optimizaciones)
