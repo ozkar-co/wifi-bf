@@ -30,6 +30,9 @@ apt-get install -y \
     build-essential
 
 echo "[3/4] Instalando dependencias de Python..."
+# Crear y activar virtual environment
+python3 -m venv venv
+source venv/bin/activate
 pip3 install -q -r requirements.txt
 
 echo "[4/4] Verificando instalación..."
