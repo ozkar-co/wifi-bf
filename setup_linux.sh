@@ -23,17 +23,32 @@ apt-get install -y \
     python3 \
     python3-pip \
     python3-dev \
+    python3-venv \
     aircrack-ng \
     wireless-tools \
     iw \
     git \
     build-essential
 
-echo "[3/4] Instalando dependencias de Python..."
-# Crear y activar virtual environment
-python3 -m venv venv
-source venv/bin/activate
-pip3 install -q -r requirements.txt
+echo "[3/4] Configurando entorno virtual de Python..."
+# Encontrar el usuario real (no root) para crear venv con permisos correctos
+REAL_USER=${SUDO_USER:-$USER}
+REAL_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Crear venv como usuario normal (no root)
+echo "Creando entorno virtual..."
+sudo -u "$REAL_USER" python3 -m venv "$SCRIPT_DIR/venv"
+
+# Activar venv e instalar dependencias
+echo "Instalando dependencias de Python en venv..."
+sudo -u "$REAL_USER" bash -c "
+    source '$SCRIPT_DIR/venv/bin/activate'
+    pip install --upgrade pip setuptools wheel
+    pip install -r '$SCRIPT_DIR/requirements.txt'
+"
+
+echo "  [OK] Entorno virtual creado en: $SCRIPT_DIR/venv"
 
 echo "[4/4] Verificando instalación..."
 echo ""
@@ -79,10 +94,20 @@ echo "========================================"
 echo "Instalación completada"
 echo "========================================"
 echo ""
-echo "Próximos pasos:"
-echo "1. Identifica tu interfaz WiFi: iwconfig"
-echo "2. Ejecuta: python3 wifi_bf.py --help"
-echo "3. Ejemplo: python3 wifi_bf.py --interface wlan0 --scan"
+echo "IMPORTANTE: Se ha creado un entorno virtual en ./venv"
 echo ""
-echo "Nota: La mayoría de comandos requieren privilegios de root (sudo)"
+echo "Dos formas de ejecutar WiFi-BF:"
+echo ""
+echo "Opción 1 - Usar el wrapper (recomendado):"
+echo "  chmod +x wifi_bf.sh"
+echo "  ./wifi_bf.sh -i wlan0 --scan"
+echo ""
+echo "Opción 2 - Llamar directamente al Python del venv:"
+echo "  sudo venv/bin/python3 wifi_bf.py -i wlan0 --scan"
+echo ""
+echo "Para desarrollo (activar venv):"
+echo "  source venv/bin/activate"
+echo "  # Ahora puedes usar python3 normalmente"
+echo ""
+echo "Identificar interfaz WiFi: iwconfig"
 echo ""
