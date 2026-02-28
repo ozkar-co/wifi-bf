@@ -1,0 +1,57 @@
+# Directorios de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs y checkpoints
+logs/
+*.log
+
+# Reportes
+reports/
+
+# Contraseñas y datos sensibles
+*.pwd
+*.pass
+*.key
+secrets.txt
+credentials.txt
+
+# Directorios temporales
+tmp/
+temp/
+.tmp/
+
+# Archivos del sistema operativo
+Thumbs.db
+.DS_Store
+.env
+.env.local
